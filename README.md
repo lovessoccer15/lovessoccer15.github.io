@@ -1,4 +1,53 @@
 # lovessoccer15.github.io
+{
+  "thresholds": {
+    "autoAnswer": 0.80,
+    "confirmMin": 0.70
+  },
+  "faqs": [
+    {
+      "id": "services",
+      "title": "Services",
+      "answerHTML": "We offer business strategy, market analysis, and financial analysis. See details here: <a href=\"/services\">Services</a>.",
+      "phrases": [
+        "what services do you offer",
+        "services",
+        "what do you do",
+        "service offerings",
+        "servces",
+        "serivces"
+      ]
+    },
+    {
+      "id": "apply",
+      "title": "Applying / Joining",
+      "answerHTML": "You can apply here: <a href=\"/join\">Join OCG</a>. You’ll also find timelines and recruiting info there.",
+      "phrases": [
+        "how do i apply",
+        "application",
+        "join ocg",
+        "recruiting",
+        "apply",
+        "aplly",
+        "aply",
+        "aplication"
+      ]
+    },
+    {
+      "id": "client",
+      "title": "Becoming a Client",
+      "answerHTML": "Interested in working together? Start here: <a href=\"/contact#client\">Client Inquiry</a>.",
+      "phrases": [
+        "become a client",
+        "work with ocg",
+        "client interest form",
+        "hire ocg",
+        "clinet",
+        "cleint"
+      ]
+    }
+  ]
+}
 <!-- OCG Concierge Widget (no vendor, no AI) -->
 <style>
   :root {
@@ -184,62 +233,298 @@
     </a>
   </div>
 </div>
+<button class="ocg-widget__btn" type="button" id="ocgOtherBtn">
+  <div>
+    Other questions
+    <small>Ask something quick — we’ll point you to an answer</small>
+  </div>
+  <span class="ocg-widget__arrow">›</span>
+</button>
 
+<div id="ocgQABox" style="display:none; margin-top: 6px;">
+  <div style="display:grid; gap:10px;">
+    <textarea id="ocgQuestionInput" rows="3" placeholder="Type your question…"
+      style="width:100%; resize:vertical; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,0.12); font:inherit;"></textarea>
+
+    <div style="display:flex; gap:10px;">
+      <button id="ocgAskBtn" type="button"
+        style="flex:1; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,0.12); background:#111827; color:#fff; font:inherit; cursor:pointer;">
+        Ask
+      </button>
+      <button id="ocgCancelAskBtn" type="button"
+        style="padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,0.12); background:#fff; font:inherit; cursor:pointer;">
+        Cancel
+      </button>
+    </div>
+
+    <div id="ocgAnswerBox"
+      style="display:none; padding:12px; border-radius:12px; border:1px solid rgba(0,0,0,0.10); background:#fafafa;">
+    </div>
+
+    <div id="ocgConfirmBox"
+      style="display:none; padding:12px; border-radius:12px; border:1px solid rgba(0,0,0,0.10); background:#fafafa;">
+      <div id="ocgConfirmText" style="margin-bottom:10px;"></div>
+      <div style="display:flex; gap:10px;">
+        <button id="ocgConfirmYes" type="button"
+          style="flex:1; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,0.12); background:#111827; color:#fff; font:inherit; cursor:pointer;">
+          Yes
+        </button>
+        <button id="ocgConfirmNo" type="button"
+          style="flex:1; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,0.12); background:#fff; font:inherit; cursor:pointer;">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <button class="ocg-launcher" id="ocgLauncher" aria-label="Open site helper">
   💬 <span>Help</span>
 </button>
 
 <script>
   (function () {
+    // ---------------------------
+    // Existing widget open/close
+    // ---------------------------
     const widget = document.getElementById("ocgWidget");
     const closeBtn = document.getElementById("ocgWidgetClose");
     const launcher = document.getElementById("ocgLauncher");
 
-    // CONFIG
-    const SHOW_DELAY_MS = 2500;          // delay before popping up
-    const DISMISS_DAYS = 7;              // don't show again for X days after close
+    const SHOW_DELAY_MS = 2500;
+    const DISMISS_DAYS = 7;
     const STORAGE_KEY = "ocg_concierge_dismissed_until";
 
     function nowMs() { return Date.now(); }
-
     function dismissedUntil() {
       const v = localStorage.getItem(STORAGE_KEY);
       return v ? Number(v) : 0;
     }
-
     function setDismissed(days) {
       const ms = days * 24 * 60 * 60 * 1000;
       localStorage.setItem(STORAGE_KEY, String(nowMs() + ms));
     }
-
     function openWidget() {
       widget.classList.add("is-open");
       launcher.classList.remove("is-visible");
     }
-
     function closeWidget() {
       widget.classList.remove("is-open");
       launcher.classList.add("is-visible");
       setDismissed(DISMISS_DAYS);
     }
 
-    // Close behavior
     closeBtn.addEventListener("click", closeWidget);
     launcher.addEventListener("click", openWidget);
-
-    // Optional: close when pressing Escape
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && widget.classList.contains("is-open")) closeWidget();
     });
 
-    // Auto-open logic
-    const shouldShow = nowMs() > dismissedUntil();
-    if (shouldShow) {
-      setTimeout(openWidget, SHOW_DELAY_MS);
-    } else {
-      // show small launcher instead
-      launcher.classList.add("is-visible");
+    // Only auto-open on homepage
+    const isHome = window.location.pathname === "/" || window.location.pathname === "/index.html";
+    const shouldShow = isHome && nowMs() > dismissedUntil();
+    if (shouldShow) setTimeout(openWidget, SHOW_DELAY_MS);
+    else launcher.classList.add("is-visible");
+
+    // ---------------------------
+    // "Other questions" UI
+    // ---------------------------
+    const otherBtn = document.getElementById("ocgOtherBtn");
+    const qaBox = document.getElementById("ocgQABox");
+    const qInput = document.getElementById("ocgQuestionInput");
+    const askBtn = document.getElementById("ocgAskBtn");
+    const cancelBtn = document.getElementById("ocgCancelAskBtn");
+
+    const answerBox = document.getElementById("ocgAnswerBox");
+
+    const confirmBox = document.getElementById("ocgConfirmBox");
+    const confirmText = document.getElementById("ocgConfirmText");
+    const confirmYes = document.getElementById("ocgConfirmYes");
+    const confirmNo = document.getElementById("ocgConfirmNo");
+
+    function show(el) { el.style.display = ""; }
+    function hide(el) { el.style.display = "none"; }
+
+    otherBtn.addEventListener("click", () => {
+      if (qaBox.style.display === "none") {
+        show(qaBox);
+        hide(answerBox);
+        hide(confirmBox);
+        qInput.value = "";
+        setTimeout(() => qInput.focus(), 50);
+      } else {
+        hide(qaBox);
+      }
+    });
+
+    cancelBtn.addEventListener("click", () => {
+      hide(qaBox);
+      hide(answerBox);
+      hide(confirmBox);
+      qInput.value = "";
+    });
+
+    function renderAnswer(html) {
+      answerBox.innerHTML = html;
+      show(answerBox);
     }
+
+    // ---------------------------
+    // Load FAQ bank from JSON
+    // ---------------------------
+    let FAQ_BANK = [];
+    let THRESH_AUTO = 0.80;
+    let THRESH_CONFIRM_MIN = 0.70;
+
+    async function loadFAQBank() {
+      try {
+        const res = await fetch("/faq_bank.json", { cache: "no-cache" });
+        if (!res.ok) throw new Error("faq_bank.json not found");
+        const data = await res.json();
+
+        FAQ_BANK = Array.isArray(data.faqs) ? data.faqs : [];
+        THRESH_AUTO = data.thresholds?.autoAnswer ?? THRESH_AUTO;
+        THRESH_CONFIRM_MIN = data.thresholds?.confirmMin ?? THRESH_CONFIRM_MIN;
+      } catch (e) {
+        // Fallback: bank not loaded (still allow logging)
+        FAQ_BANK = [];
+      }
+    }
+
+    // start loading immediately
+    loadFAQBank();
+
+    // ---------------------------
+    // Matching utilities (typo-tolerant)
+    // ---------------------------
+    function normalize(s) {
+      return (s || "")
+        .toLowerCase()
+        .replace(/[\u2019']/g, "'")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function bigrams(s) {
+      const str = " " + s + " ";
+      const out = [];
+      for (let i = 0; i < str.length - 1; i++) out.push(str.slice(i, i + 2));
+      return out;
+    }
+
+    function dice(a, b) {
+      if (!a || !b) return 0;
+      if (a === b) return 1;
+
+      const A = bigrams(a);
+      const B = bigrams(b);
+
+      const freq = new Map();
+      for (const x of A) freq.set(x, (freq.get(x) || 0) + 1);
+
+      let matches = 0;
+      for (const y of B) {
+        const c = freq.get(y) || 0;
+        if (c > 0) {
+          freq.set(y, c - 1);
+          matches++;
+        }
+      }
+      return (2 * matches) / (A.length + B.length);
+    }
+
+    function findBestMatch(userText) {
+      const q = normalize(userText);
+      let best = { score: 0, entry: null, phrase: "" };
+
+      for (const entry of FAQ_BANK) {
+        for (const p of (entry.phrases || [])) {
+          const score = dice(q, normalize(p));
+          if (score > best.score) best = { score, entry, phrase: p };
+        }
+      }
+      return best;
+    }
+
+    // ---------------------------
+    // Fallback logging (paste your form endpoint)
+    // ---------------------------
+    const FALLBACK_FORM_ACTION = ""; // e.g. "https://docs.google.com/forms/d/e/XXXXX/formResponse"
+    const FALLBACK_FORM_ENTRY = "";  // e.g. "entry.1234567890"
+
+    async function logUnmatchedQuestion(questionText) {
+      if (!FALLBACK_FORM_ACTION || !FALLBACK_FORM_ENTRY) return;
+      const fd = new FormData();
+      fd.append(FALLBACK_FORM_ENTRY, questionText);
+      await fetch(FALLBACK_FORM_ACTION, { method: "POST", mode: "no-cors", body: fd });
+    }
+
+    // ---------------------------
+    // Confirmation flow
+    // ---------------------------
+    let pendingMatch = null;
+    let pendingQuestion = "";
+
+    function showConfirm(best, originalQuestion) {
+      pendingMatch = best;
+      pendingQuestion = originalQuestion;
+
+      // hide other boxes
+      hide(answerBox);
+
+      confirmText.innerHTML =
+        `Did you mean <strong>${best.entry.title || "this"}</strong>?<br>
+         <span style="color:#6b7280; font-size:12px;">(We’re guessing based on similar wording.)</span>`;
+      show(confirmBox);
+    }
+
+    confirmYes.addEventListener("click", () => {
+      if (pendingMatch?.entry?.answerHTML) {
+        hide(confirmBox);
+        renderAnswer(pendingMatch.entry.answerHTML);
+      }
+      pendingMatch = null;
+      pendingQuestion = "";
+    });
+
+    confirmNo.addEventListener("click", async () => {
+      hide(confirmBox);
+      renderAnswer(
+        `Got it — we’ll get back to you. We saved your question for our team to review.<br><br>
+         <span style="color:#6b7280; font-size:12px;">(If it’s urgent, use <a href="/contact">Contact</a>.)</span>`
+      );
+      try { await logUnmatchedQuestion(pendingQuestion); } catch (_) {}
+      pendingMatch = null;
+      pendingQuestion = "";
+    });
+
+    // ---------------------------
+    // Ask button behavior
+    // ---------------------------
+    askBtn.addEventListener("click", async () => {
+      const raw = qInput.value.trim();
+      if (!raw) return;
+
+      hide(answerBox);
+      hide(confirmBox);
+
+      // Ensure the bank has had a chance to load (if it hasn't, load again)
+      if (!FAQ_BANK.length) await loadFAQBank();
+
+      const best = findBestMatch(raw);
+
+      if (best.entry && best.score >= THRESH_AUTO) {
+        renderAnswer(best.entry.answerHTML);
+      } else if (best.entry && best.score >= THRESH_CONFIRM_MIN) {
+        showConfirm(best, raw);
+      } else {
+        renderAnswer(
+          `Thanks — we’ll get back to you. We saved your question for our team to review.<br><br>
+           <span style="color:#6b7280; font-size:12px;">(If it’s urgent, use <a href="/contact">Contact</a>.)</span>`
+        );
+        try { await logUnmatchedQuestion(raw); } catch (_) {}
+      }
+    });
   })();
 </script>
 <!-- /OCG Concierge Widget -->
