@@ -1,11 +1,10 @@
 # lovessoccer15.github.io
-<!-- OCG Concierge Widget (no vendor, no AI) -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>OCG Concierge Widget Test</title>
+  <title>OCG Concierge Widget</title>
 
   <style>
     :root{
@@ -18,19 +17,6 @@
       --ocg-btn-hover:#e5e7eb;
       --ocg-radius:16px;
     }
-
-    body{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      margin: 40px;
-      max-width: 920px;
-      color: var(--ocg-text);
-    }
-    .card{
-      padding:18px;
-      border:1px solid #ddd;
-      border-radius:14px;
-    }
-    .muted{ color: var(--ocg-muted); }
 
     /* --- Widget --- */
     .ocg-widget{
@@ -49,6 +35,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 220ms ease, transform 220ms ease;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
     .ocg-widget.is-open{
       opacity: 1;
@@ -108,7 +95,6 @@
       cursor:pointer;
     }
     .ocg-widget__btn:hover{ background:var(--ocg-btn-hover); }
-
     .ocg-widget__btn small{
       display:block;
       font-weight:500;
@@ -116,17 +102,13 @@
       color:var(--ocg-muted);
       margin-top:2px;
     }
-    .ocg-widget__arrow{
-      opacity:.6;
-      font-size:16px;
-      flex: 0 0 auto;
-    }
+    .ocg-widget__arrow{ opacity:.6; font-size:16px; flex: 0 0 auto; }
 
-    /* "Other questions" area */
+    /* Other questions block */
     .ocg-qa{
       display:none;
       margin-top: 2px;
-      padding-top: 4px;
+      padding-top: 6px;
       border-top: 1px dashed rgba(0,0,0,0.12);
     }
     .ocg-qa textarea{
@@ -196,12 +178,6 @@
 </head>
 
 <body>
-  <h1>OCG Concierge Widget Test</h1>
-  <p class="muted">This is a dummy page. The widget should auto-open only on the homepage.</p>
-  <div class="card">
-    <p><strong>Tip:</strong> Put this same HTML on your real site and update the links + FAQ bank.</p>
-  </div>
-
   <!-- =========================
        Widget Markup (HTML)
        ========================= -->
@@ -215,7 +191,7 @@
     </div>
 
     <div class="ocg-widget__body">
-      <!-- Core routing buttons (REAL URL BUTTONS) -->
+      <!-- URL buttons -->
       <a class="ocg-widget__btn" href="/join">
         <div>Apply to OCG<small>Applications, info sessions, recruiting</small></div>
         <span class="ocg-widget__arrow">›</span>
@@ -246,13 +222,13 @@
         <span class="ocg-widget__arrow">›</span>
       </a>
 
-      <!-- "Other questions" toggle (button-looking, but NOT a link) -->
+      <!-- Other questions toggle -->
       <button class="ocg-widget__btn" type="button" id="ocgOtherBtn">
-        <div>Other questions<small>Ask something — we’ll search our FAQ bank</small></div>
+        <div>Other questions<small>Type a question — we’ll search our FAQ bank</small></div>
         <span class="ocg-widget__arrow">›</span>
       </button>
 
-      <!-- "Other questions" content -->
+      <!-- Other questions content -->
       <div class="ocg-qa" id="ocgQABox">
         <textarea id="ocgQuestionInput" rows="3" placeholder="Type your question…"></textarea>
 
@@ -277,25 +253,101 @@
   <button class="ocg-launcher" id="ocgLauncher" aria-label="Open site helper">💬 <span>Help</span></button>
 
   <!-- =========================
-       Widget Script (JS)
-       Put this right before </body>
+       Script (JS)
        ========================= -->
   <script>
     (function () {
       // ---------- Config ----------
-      const SHOW_DELAY_MS = 2500;     // auto-open delay on homepage
-      const DISMISS_DAYS = 7;         // after closing, don't auto-open for X days
+      const SHOW_DELAY_MS = 2500;   // auto-open delay on homepage
+      const DISMISS_DAYS = 7;       // after closing, don't auto-open for X days
       const STORAGE_KEY = "ocg_concierge_dismissed_until";
 
-      // If you host faq_bank.json somewhere else, set full URL here:
-      const FAQ_BANK_URL = "/faq_bank.json";
+      // Fuzzy-match thresholds:
+      const THRESH_AUTO = 0.80;        // auto-answer above this
+      const THRESH_CONFIRM_MIN = 0.70; // ask "Did you mean...?" between confirmMin and auto
 
-      // Fallback logging (optional). Leave blank to disable.
-      // Google Forms example:
-      // const FALLBACK_FORM_ACTION = "https://docs.google.com/forms/d/e/XXXXX/formResponse";
-      // const FALLBACK_FORM_ENTRY  = "entry.1234567890";
+      // Optional logging endpoint (Google Form / Formspree / Netlify forms).
+      // Leave blank to disable logging.
       const FALLBACK_FORM_ACTION = "";
       const FALLBACK_FORM_ENTRY  = "";
+
+      // ---------- FAQ Bank (hardcoded) ----------
+      // Add as many as you want. Put common misspellings in "phrases".
+      const FAQ_BANK = [
+        {
+          id: "services",
+          title: "Services",
+          answerHTML: `We offer business strategy, market analysis, and financial analysis. See details here: <a href="/services">Services</a>.`,
+          phrases: [
+            "what services do you offer",
+            "services",
+            "what do you do",
+            "service offerings",
+            "servces",
+            "serivces",
+            "what can ocg help with"
+          ]
+        },
+        {
+          id: "apply",
+          title: "Applying / Joining",
+          answerHTML: `You can apply here: <a href="/join">Join OCG</a>. You’ll also find timelines and recruiting info there.`,
+          phrases: [
+            "how do i apply",
+            "application",
+            "join ocg",
+            "recruiting",
+            "apply",
+            "aplly",
+            "aply",
+            "aplication",
+            "when do applications open"
+          ]
+        },
+        {
+          id: "client",
+          title: "Becoming a Client",
+          answerHTML: `Interested in working together? Start here: <a href="/contact#client">Client Inquiry</a>.`,
+          phrases: [
+            "become a client",
+            "work with ocg",
+            "client interest form",
+            "hire ocg",
+            "clinet",
+            "cleint",
+            "client inquiry",
+            "how do we start a project"
+          ]
+        },
+        {
+          id: "portfolio",
+          title: "Past Projects",
+          answerHTML: `See examples of past work here: <a href="/project-portfolio">Project Portfolio</a>.`,
+          phrases: [
+            "past projects",
+            "testimonials",
+            "case studies",
+            "portfolio",
+            "project portfolio",
+            "examples of work",
+            "prevous projects",
+            "previous projects"
+          ]
+        },
+        {
+          id: "timeline",
+          title: "Project Timeline",
+          answerHTML: `Project timing depends on scope, but we can usually align around academic terms. Start here and we’ll follow up: <a href="/contact#client">Client Inquiry</a>.`,
+          phrases: [
+            "how long do projects take",
+            "timeline",
+            "project timeline",
+            "how fast can you do this",
+            "timline",
+            "time line"
+          ]
+        }
+      ];
 
       // ---------- Elements ----------
       const widget     = document.getElementById("ocgWidget");
@@ -351,11 +403,8 @@
 
       // ---------- Other Questions UI ----------
       otherBtn.addEventListener("click", () => {
-        const isHidden = (qaBox.style.display === "none" || qaBox.style.display === "");
-        // Toggle: if hidden -> show; else hide
+        // Toggle
         if (qaBox.style.display === "none" || qaBox.style.display === "") {
-          // If currently hidden, show it
-          if (qaBox.style.display === "none") { /* already hidden */ }
           show(qaBox);
           hide(answerBox);
           hide(confirmBox);
@@ -377,26 +426,6 @@
         answerBox.innerHTML = html;
         show(answerBox);
       }
-
-      // ---------- FAQ bank loading (JSON) ----------
-      let FAQ_BANK = [];
-      let THRESH_AUTO = 0.80;
-      let THRESH_CONFIRM_MIN = 0.70;
-
-      async function loadFAQBank(){
-        try{
-          const res = await fetch(FAQ_BANK_URL, { cache: "no-cache" });
-          if(!res.ok) throw new Error("faq bank not found");
-          const data = await res.json();
-
-          FAQ_BANK = Array.isArray(data.faqs) ? data.faqs : [];
-          THRESH_AUTO = data.thresholds?.autoAnswer ?? THRESH_AUTO;
-          THRESH_CONFIRM_MIN = data.thresholds?.confirmMin ?? THRESH_CONFIRM_MIN;
-        }catch(_){
-          FAQ_BANK = [];
-        }
-      }
-      loadFAQBank(); // kick off early
 
       // ---------- Fuzzy match (Dice coefficient on bigrams) ----------
       function normalize(s){
@@ -498,9 +527,6 @@
 
         hide(answerBox);
         hide(confirmBox);
-
-        // Ensure bank loaded (if it failed initially, retry once now)
-        if(!FAQ_BANK.length) await loadFAQBank();
 
         const best = findBestMatch(raw);
 
