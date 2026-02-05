@@ -366,8 +366,8 @@
       const confirmYes = document.getElementById("ocgConfirmYes");
       const confirmNo  = document.getElementById("ocgConfirmNo");
 
-      function show(el){ el.style.display = ""; }
-      function hide(el){ el.style.display = "none"; }
+     function show(el){ el.style.display = "block"; }
+     function hide(el){ el.style.display = "none"; }
 
       // ---------- Open/Close ----------
       function nowMs(){ return Date.now(); }
@@ -403,17 +403,17 @@
 
       // ---------- Other Questions UI ----------
       otherBtn.addEventListener("click", () => {
-        // Toggle
-        if (qaBox.style.display === "none" || qaBox.style.display === "") {
-          show(qaBox);
-          hide(answerBox);
-          hide(confirmBox);
-          qInput.value = "";
-          setTimeout(() => qInput.focus(), 30);
-        } else {
-          hide(qaBox);
-        }
-      });
+  const isHidden = window.getComputedStyle(qaBox).display === "none";
+  if (isHidden) {
+    show(qaBox);
+    hide(answerBox);
+    hide(confirmBox);
+    qInput.value = "";
+    setTimeout(() => qInput.focus(), 30);
+  } else {
+    hide(qaBox);
+  }
+});
 
       cancelBtn.addEventListener("click", () => {
         hide(answerBox);
