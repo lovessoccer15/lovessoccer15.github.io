@@ -1,53 +1,4 @@
 # lovessoccer15.github.io
-{
-  "thresholds": {
-    "autoAnswer": 0.80,
-    "confirmMin": 0.70
-  },
-  "faqs": [
-    {
-      "id": "services",
-      "title": "Services",
-      "answerHTML": "We offer business strategy, market analysis, and financial analysis. See details here: <a href=\"/services\">Services</a>.",
-      "phrases": [
-        "what services do you offer",
-        "services",
-        "what do you do",
-        "service offerings",
-        "servces",
-        "serivces"
-      ]
-    },
-    {
-      "id": "apply",
-      "title": "Applying / Joining",
-      "answerHTML": "You can apply here: <a href=\"/join\">Join OCG</a>. You’ll also find timelines and recruiting info there.",
-      "phrases": [
-        "how do i apply",
-        "application",
-        "join ocg",
-        "recruiting",
-        "apply",
-        "aplly",
-        "aply",
-        "aplication"
-      ]
-    },
-    {
-      "id": "client",
-      "title": "Becoming a Client",
-      "answerHTML": "Interested in working together? Start here: <a href=\"/contact#client\">Client Inquiry</a>.",
-      "phrases": [
-        "become a client",
-        "work with ocg",
-        "client interest form",
-        "hire ocg",
-        "clinet",
-        "cleint"
-      ]
-    }
-  ]
-}
 <!-- OCG Concierge Widget (no vendor, no AI) -->
 <style>
   :root {
@@ -240,7 +191,55 @@
   </div>
   <span class="ocg-widget__arrow">›</span>
 </button>
-
+{
+  "thresholds": {
+    "autoAnswer": 0.80,
+    "confirmMin": 0.70
+  },
+  "faqs": [
+    {
+      "id": "services",
+      "title": "Services",
+      "answerHTML": "We offer business strategy, market analysis, and financial analysis. See details here: <a href=\"/services\">Services</a>.",
+      "phrases": [
+        "what services do you offer",
+        "services",
+        "what do you do",
+        "service offerings",
+        "servces",
+        "serivces"
+      ]
+    },
+    {
+      "id": "apply",
+      "title": "Applying / Joining",
+      "answerHTML": "You can apply here: <a href=\"/join\">Join OCG</a>. You’ll also find timelines and recruiting info there.",
+      "phrases": [
+        "how do i apply",
+        "application",
+        "join ocg",
+        "recruiting",
+        "apply",
+        "aplly",
+        "aply",
+        "aplication"
+      ]
+    },
+    {
+      "id": "client",
+      "title": "Becoming a Client",
+      "answerHTML": "Interested in working together? Start here: <a href=\"/contact#client\">Client Inquiry</a>.",
+      "phrases": [
+        "become a client",
+        "work with ocg",
+        "client interest form",
+        "hire ocg",
+        "clinet",
+        "cleint"
+      ]
+    }
+  ]
+}
 <div id="ocgQABox" style="display:none; margin-top: 6px;">
   <div style="display:grid; gap:10px;">
     <textarea id="ocgQuestionInput" rows="3" placeholder="Type your question…"
