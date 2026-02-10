@@ -347,6 +347,338 @@
             "time line"
           ]
         }
+        {
+    id: "about_ocg",
+    title: "What is OCG?",
+    answerHTML: `OCG is a student-led consulting organization at the University of Oregon that supports organizations with research and analysis. Learn more here: <a href="/team-structures">About OCG</a>.`,
+    phrases: [
+      "what is ocg",
+      "what is the oregon consulting group",
+      "what is oregon consulting group",
+      "who are you",
+      "about ocg",
+      "tell me about ocg",
+      "what do you guys do",
+      "oregon consultng group",
+      "oregon consuting group",
+      "oregon consulting groop"
+    ]
+  },
+  {
+    id: "client_types",
+    title: "Client Types",
+    answerHTML: `We work with a range of organizations (often startups, small businesses, and nonprofits). If you’re not sure fit-wise, submit an inquiry and we’ll route you: <a href="/contact#client">Client Inquiry</a>.`,
+    phrases: [
+      "what types of clients do you work with",
+      "who do you work with",
+      "who are your clients",
+      "do you work with nonprofits",
+      "do you work with startups",
+      "do you work with small businesses",
+      "client types",
+      "what kind of orgs",
+      "what kind of organizations",
+      "clinet types",
+      "cleints"
+    ]
+  },
+  {
+    id: "services",
+    title: "Services",
+    answerHTML: `We typically support projects in strategy, market research, and financial analysis. See the full breakdown here: <a href="/services">Services</a>.`,
+    phrases: [
+      "what services do you offer",
+      "services",
+      "service offerings",
+      "what do you offer",
+      "what can you help with",
+      "what can ocg do",
+      "servces",
+      "serivces",
+      "servics"
+    ]
+  },
+  {
+    id: "which_service",
+    title: "Which service should I choose?",
+    answerHTML: `If you want direction/priority → strategy. If you need customer/competitor insights → market research. If you need numbers/models/forecasting → financial analysis. More detail: <a href="/services">Services</a>.`,
+    phrases: [
+      "which service is best",
+      "what service do i need",
+      "what should i pick",
+      "strategy vs market research",
+      "market analysis vs strategy",
+      "financial analysis vs strategy",
+      "help me choose a service",
+      "which offering",
+      "wich service",
+      "best service for me"
+    ]
+  },
+  {
+    id: "engagement_process",
+    title: "Engagement Process",
+    answerHTML: `A typical engagement includes kickoff + scope alignment, research/analysis, periodic check-ins, and a final deliverable presentation with recommendations. Start here: <a href="/contact#client">Client Inquiry</a>.`,
+    phrases: [
+      "what does an engagement look like",
+      "typical engagement",
+      "how does it work",
+      "process from kickoff to deliverable",
+      "project process",
+      "how do projects work",
+      "what are the steps",
+      "engagment process",
+      "engagement proces"
+    ]
+  },
+  {
+    id: "timeline",
+    title: "Project Timeline",
+    answerHTML: `Timelines depend on scope and academic-term scheduling, but we’ll align expectations during kickoff. If you share your target date, we’ll advise fit: <a href="/contact#client">Client Inquiry</a>.`,
+    phrases: [
+      "how long do projects take",
+      "timeline",
+      "how long is a project",
+      "project length",
+      "how fast can you do this",
+      "timeframe",
+      "turnaround time",
+      "timline",
+      "time line"
+    ]
+  },
+  {
+    id: "deliverables",
+    title: "End-of-Project Deliverables",
+    answerHTML: `Most projects end with a final presentation and a set of recommendations (often with supporting analysis/appendix). Details vary by scope — ask here: <a href="/contact#client">Client Inquiry</a>.`,
+    phrases: [
+      "what do clients receive",
+      "deliverables",
+      "final deliverable",
+      "what do i get at the end",
+      "what do you deliver",
+      "do we get a presentation",
+      "do we get a report",
+      "deliverabels",
+      "delivarables"
+    ]
+  },
+  {
+    id: "what_you_need",
+    title: "What we need from you to start",
+    answerHTML: `To start, we typically need a clear problem statement, a point-of-contact, and any relevant context/data you can share. We’ll confirm the rest at kickoff: <a href="/contact#client">Client Inquiry</a>.`,
+    phrases: [
+      "what do you need from me",
+      "what do you need to get started",
+      "what information do you need",
+      "what should i prepare",
+      "client responsibilities",
+      "what do i have to provide",
+      "getting started requirements",
+      "what do you need frm me"
+    ]
+  },
+  {
+    id: "become_client",
+    title: "Become a Client / Submit Inquiry",
+    answerHTML: `You can submit a client inquiry here: <a href="/contact#client">Client Inquiry</a>. If you include your goals + timeline, we can route you faster.`,
+    phrases: [
+      "how do i become a client",
+      "submit a client inquiry",
+      "client inquiry",
+      "client interest form",
+      "work with ocg",
+      "hire ocg",
+      "be a client",
+      "client form",
+      "clinet inquiry",
+      "client intrest"
+    ]
+  },
+  {
+    id: "pricing",
+    title: "Project Cost / Nonprofit Options",
+    answerHTML: `Pricing depends on scope and timing. If you’re a nonprofit/startup, mention that in your inquiry and we’ll discuss options: <a href="/contact#client">Client Inquiry</a>.`,
+    phrases: [
+      "how much does a project cost",
+      "pricing",
+      "cost",
+      "price",
+      "how much do you charge",
+      "is it affordable",
+      "nonprofit pricing",
+      "pro bono",
+      "prcing",
+      "how much is it"
+    ]
+  },
+  {
+    id: "confidentiality",
+    title: "Confidentiality",
+    answerHTML: `We take confidentiality seriously. If your project involves sensitive information, mention it in your inquiry and we’ll discuss appropriate handling during kickoff: <a href="/contact#client">Client Inquiry</a>.`,
+    phrases: [
+      "confidentiality",
+      "how do you handle confidentiality",
+      "nda",
+      "can you sign an nda",
+      "sensitive data",
+      "is my info private",
+      "confidenciality",
+      "confidentality"
+    ]
+  },
+  {
+    id: "unknown_scope",
+    title: "Not sure on scope yet",
+    answerHTML: `Yes — if you’re still scoping the problem, we can help clarify objectives and define a reasonable project scope on the first call. Start here: <a href="/contact#client">Client Inquiry</a>.`,
+    phrases: [
+      "i don't know my scope yet",
+      "dont know scope",
+      "not sure what i need",
+      "can you help define scope",
+      "can you help me scope this",
+      "help me figure out my project",
+      "unclear scope",
+      "scope help",
+      "scoping"
+    ]
+  },
+  {
+    id: "remote_outside_oregon",
+    title: "Remote / Outside Oregon",
+    answerHTML: `We can often work with organizations outside Oregon and/or collaborate remotely depending on fit and timing. Submit an inquiry and we’ll confirm logistics: <a href="/contact#client">Client Inquiry</a>.`,
+    phrases: [
+      "do you work outside oregon",
+      "out of state clients",
+      "remote projects",
+      "do you do remote work",
+      "virtual projects",
+      "non oregon clients",
+      "can you work with us remotely",
+      "outside of oregon",
+      "remotely",
+      "remote"
+    ]
+  },
+  {
+    id: "portfolio_examples",
+    title: "Past Projects / Examples",
+    answerHTML: `You can browse examples of past work and clients here: <a href="/project-portfolio">Project Portfolio</a>.`,
+    phrases: [
+      "examples of past projects",
+      "past projects",
+      "portfolio",
+      "project portfolio",
+      "testimonials",
+      "case studies",
+      "previous clients",
+      "who have you worked with",
+      "past work",
+      "portoflio",
+      "protfolio"
+    ]
+  },
+  {
+    id: "who_to_contact_general",
+    title: "Who should I contact?",
+    answerHTML: `If you’re not sure where your question fits, the best move is to use the contact page and we’ll route you: <a href="/contact">Contact</a>.`,
+    phrases: [
+      "who should i contact",
+      "who do i email",
+      "not sure who to contact",
+      "general questions",
+      "who can help me",
+      "contact person",
+      "best person to reach",
+      "who to reach out to",
+      "who to talk to"
+    ]
+  },
+  {
+    id: "join_ocg",
+    title: "Joining OCG",
+    answerHTML: `To join, start here: <a href="/join">Join OCG</a>. That page should have the application and recruiting details.`,
+    phrases: [
+      "how do i join ocg",
+      "join",
+      "join ocg",
+      "apply to ocg",
+      "recruiting",
+      "membership",
+      "become a member",
+      "how to join",
+      "how do i get in",
+      "joinning ocg",
+      "aplly to ocg"
+    ]
+  },
+  {
+    id: "applications_process",
+    title: "Application timeline & process",
+    answerHTML: `Recruiting timelines and the application process live here: <a href="/join">Join OCG</a>. If you don’t see dates, use <a href="/contact">Contact</a> and we’ll point you to the latest info.`,
+    phrases: [
+      "when do applications open",
+      "when do applications close",
+      "application deadline",
+      "recruiting timeline",
+      "application process",
+      "how does the process work",
+      "steps to apply",
+      "interview process",
+      "aplication timeline",
+      "deadlines"
+    ]
+  },
+  {
+    id: "time_commitment",
+    title: "Weekly time commitment",
+    answerHTML: `Weekly commitment varies by role and project load. If you’re applying, check details here: <a href="/join">Join OCG</a> (or ask via <a href="/contact">Contact</a>).`,
+    phrases: [
+      "weekly time commitment",
+      "how many hours",
+      "hours per week",
+      "time commitment",
+      "how much time is ocg",
+      "workload",
+      "weekly hours",
+      "weekley time",
+      "time committment"
+    ]
+  },
+  {
+    id: "experience_background",
+    title: "Experience & backgrounds",
+    answerHTML: `You don’t need prior consulting experience to apply — we look for motivated students with strong problem-solving and communication. Details: <a href="/join">Join OCG</a>.`,
+    phrases: [
+      "do i need prior consulting experience",
+      "do i need experience",
+      "what backgrounds are you looking for",
+      "what majors",
+      "who should apply",
+      "requirements",
+      "qualifications",
+      "do i have to be a business major",
+      "experience needed",
+      "experiance"
+    ]
+  },
+  {
+    id: "recruiting_contact",
+    title: "Recruiting / student questions contact",
+    answerHTML: `For recruiting or student questions, use: <a href="/contact">Contact</a> and mention “recruiting” in your message so it routes correctly.`,
+    phrases: [
+      "who can i contact with recruiting questions",
+      "recruiting contact",
+      "student questions",
+      "who do i email about joining",
+      "application questions",
+      "contact for joining",
+      "recruting",
+      "recruiting email",
+      "student contact"
+    ]
+  }
+];
       ];
 
       // ---------- Elements ----------
