@@ -299,8 +299,8 @@
     const STORAGE_KEY = "ocg_concierge_dismissed_until";
 
     // Aggressive matching so questions are almost always answered
-    const THRESH_AUTO = 0.68;
-    const THRESH_CONFIRM_MIN = 0.55;
+    const THRESH_AUTO = 0.4;
+    const THRESH_CONFIRM_MIN = 0.9;
 
     // Update these to your real Squarespace slugs/URLs:
     const CLIENT_INQUIRY_URL  = "/client-inquiry";
