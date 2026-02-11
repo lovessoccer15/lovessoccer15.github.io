@@ -6,34 +6,34 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>OCG Concierge Widget</title>
 
-  <style>
+ <style>
   :root{
-    --ocg-bg:#ffffff;
-    --ocg-border:rgba(0,0,0,.12);
-    --ocg-shadow:0 18px 50px rgba(0,0,0,.18);
-    --ocg-text:#111827;
-    --ocg-muted:#6b7280;
-    --ocg-btn:#f3f4f6;
-    --ocg-btn-hover:#e5e7eb;
-    --ocg-radius:16px;
+    --ocg-green: rgb(18, 71, 52);
+    --ocg-white: #ffffff;
+    --ocg-black: #111111;
+    --ocg-muted: rgba(255,255,255,0.82);
+    --ocg-shadow: 0 18px 50px rgba(0,0,0,0.25);
+    --ocg-radius: 16px;
   }
 
+  /* Widget container */
   .ocg-widget{
     position: fixed;
     right: 18px;
     bottom: 18px;
-    width: min(360px, calc(100vw - 36px));
-    background: var(--ocg-bg);
-    color: var(--ocg-text);
-    border: 1px solid var(--ocg-border);
+    width: min(380px, calc(100vw - 36px));
+    background: var(--ocg-green);
+    color: var(--ocg-white);
     border-radius: var(--ocg-radius);
     box-shadow: var(--ocg-shadow);
     z-index: 999999;
     overflow: hidden;
+
     transform: translateY(12px);
     opacity: 0;
     pointer-events: none;
     transition: opacity 220ms ease, transform 220ms ease;
+
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   }
   .ocg-widget.is-open{
@@ -48,19 +48,20 @@
     justify-content:space-between;
     gap:10px;
     padding:14px 14px 10px 14px;
-    border-bottom:1px solid rgba(0,0,0,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.18);
   }
   .ocg-widget__title{
     margin:0;
     font-size:14px;
-    font-weight:650;
+    font-weight:700;
     line-height:1.2;
+    color: var(--ocg-white);
   }
   .ocg-widget__subtitle{
     margin:6px 0 0 0;
     font-size:12px;
-    color:var(--ocg-muted);
     line-height:1.35;
+    color: var(--ocg-muted);
   }
   .ocg-widget__close{
     border:0;
@@ -69,8 +70,10 @@
     padding:6px;
     border-radius:10px;
     line-height:0;
+    color: var(--ocg-white);
+    font-size: 16px;
   }
-  .ocg-widget__close:hover{ background: rgba(0,0,0,.06); }
+  .ocg-widget__close:hover{ background: rgba(255,255,255,0.14); }
 
   .ocg-widget__body{
     padding:12px 14px 14px 14px;
@@ -78,6 +81,7 @@
     gap:10px;
   }
 
+  /* White buttons + black text */
   .ocg-widget__btn{
     display:flex;
     align-items:center;
@@ -86,37 +90,44 @@
     text-decoration:none;
     padding:12px 12px;
     border-radius:12px;
-    background:var(--ocg-btn);
-    color:var(--ocg-text);
-    border:1px solid rgba(0,0,0,.08);
+    background: var(--ocg-white);
+    color: var(--ocg-black);
+    border: 1px solid rgba(0,0,0,0.08);
     font-size:14px;
-    font-weight:560;
+    font-weight:650;
     cursor:pointer;
   }
-  .ocg-widget__btn:hover{ background:var(--ocg-btn-hover); }
+  .ocg-widget__btn:hover{ background: rgba(255,255,255,0.92); }
   .ocg-widget__btn small{
     display:block;
     font-weight:500;
     font-size:12px;
-    color:var(--ocg-muted);
+    color: rgba(0,0,0,0.70);
     margin-top:2px;
   }
-  .ocg-widget__arrow{ opacity:.6; font-size:16px; flex: 0 0 auto; }
+  .ocg-widget__arrow{
+    opacity:.55;
+    font-size:16px;
+    flex: 0 0 auto;
+    color: var(--ocg-black);
+  }
 
   /* Other questions block */
   .ocg-qa{
     display:none; /* toggled by JS */
     margin-top: 2px;
-    padding-top: 6px;
-    border-top: 1px dashed rgba(0,0,0,0.12);
+    padding-top: 8px;
+    border-top: 1px dashed rgba(255,255,255,0.35);
   }
   .ocg-qa textarea{
     width:100%;
     resize:vertical;
     padding:10px 12px;
     border-radius:12px;
-    border:1px solid rgba(0,0,0,0.12);
+    border:1px solid rgba(0,0,0,0.15);
     font:inherit;
+    background: #ffffff;
+    color: #111111;
   }
   .ocg-qa__row{
     display:flex;
@@ -128,40 +139,48 @@
     padding:10px 12px;
     border-radius:12px;
     border:1px solid rgba(0,0,0,0.12);
-    background:#111827;
-    color:#fff;
+    background:#ffffff;
+    color:#111111;
     font:inherit;
     cursor:pointer;
+    font-weight:700;
   }
+  .ocg-qa__primary:hover{ background: rgba(255,255,255,0.92); }
   .ocg-qa__secondary{
     padding:10px 12px;
     border-radius:12px;
-    border:1px solid rgba(0,0,0,0.12);
-    background:#fff;
+    border:1px solid rgba(255,255,255,0.35);
+    background: transparent;
+    color: #ffffff;
     font:inherit;
     cursor:pointer;
+    font-weight:650;
   }
+  .ocg-qa__secondary:hover{ background: rgba(255,255,255,0.14); }
+
+  /* Answer / confirm boxes: white for readability */
   .ocg-qa__box{
     display:none;
     padding:12px;
     border-radius:12px;
     border:1px solid rgba(0,0,0,0.10);
-    background:#fafafa;
+    background:#ffffff;
     margin-top: 10px;
     font-size: 14px;
     line-height: 1.35;
+    color: #111111;
   }
-  .ocg-qa__box a{ color:#111827; }
+  .ocg-qa__box a{ color:#111111; text-decoration: underline; }
 
-  /* Launcher bubble when widget is closed */
+  /* Launcher bubble (collapsed state) */
   .ocg-launcher{
     position: fixed;
     right: 18px;
     bottom: 18px;
     z-index: 999998;
-    border: 1px solid var(--ocg-border);
-    background: var(--ocg-bg);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.14);
+    border: 1px solid rgba(255,255,255,0.25);
+    background: var(--ocg-green);  /* rgb(18,71,52) */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.22);
     border-radius: 999px;
     padding: 10px 12px;
     cursor: pointer;
@@ -169,10 +188,11 @@
     align-items:center;
     gap:8px;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: #ffffff;               /* white text */
   }
   .ocg-launcher.is-visible{ display:inline-flex; }
-  .ocg-launcher:hover{ background:#f9fafb; }
-  .ocg-launcher span{ font-size:13px; font-weight:650; }
+  .ocg-launcher:hover{ filter: brightness(1.05); }
+  .ocg-launcher span{ font-size:13px; font-weight:750; color:#ffffff; }
 </style>
 
 <!-- Widget HTML -->
@@ -186,39 +206,34 @@
   </div>
 
   <div class="ocg-widget__body">
-    <!-- Update these hrefs to your real Squarespace page slugs -->
+    <!-- Update these hrefs if your Squarespace slugs differ -->
     <a class="ocg-widget__btn" href="/join">
-      <div>Apply to OCG<small>Applications, info sessions, recruiting</small></div>
+      <div>Join OCG<small>Recruiting cycles + application info</small></div>
       <span class="ocg-widget__arrow">›</span>
     </a>
 
-    <a class="ocg-widget__btn" href="/contact#client">
-      <div>Work with OCG<small>Client inquiry form</small></div>
+    <a class="ocg-widget__btn" href="/client-inquiry">
+      <div>Become a client<small>Submit a client inquiry</small></div>
       <span class="ocg-widget__arrow">›</span>
     </a>
 
     <a class="ocg-widget__btn" href="/services">
-      <div>Services<small>What we can help with</small></div>
+      <div>Services<small>Strategy, market analysis, financial analysis</small></div>
       <span class="ocg-widget__arrow">›</span>
     </a>
 
     <a class="ocg-widget__btn" href="/project-portfolio">
-      <div>Past projects<small>Examples & outcomes</small></div>
+      <div>Past projects<small>Examples of our work</small></div>
       <span class="ocg-widget__arrow">›</span>
     </a>
 
-    <a class="ocg-widget__btn" href="/about">
-      <div>About OCG<small>Who we are</small></div>
-      <span class="ocg-widget__arrow">›</span>
-    </a>
-
-    <a class="ocg-widget__btn" href="/contact">
-      <div>Contact<small>General questions</small></div>
+    <a class="ocg-widget__btn" href="/student-inquiry">
+      <div>Student inquiry<small>Questions about recruiting / membership</small></div>
       <span class="ocg-widget__arrow">›</span>
     </a>
 
     <button class="ocg-widget__btn" type="button" id="ocgOtherBtn">
-      <div>Other questions<small>Type a question — we’ll search our FAQ bank</small></div>
+      <div>Other questions<small>Ask something — we’ll match our FAQ bank</small></div>
       <span class="ocg-widget__arrow">›</span>
     </button>
 
@@ -257,131 +272,208 @@
     const THRESH_AUTO = 0.80;        // auto-answer above this
     const THRESH_CONFIRM_MIN = 0.70; // confirm between this and auto
 
-    // Optional logging (leave blank to disable)
+    // OPTIONAL: log unmatched questions somewhere (Google Form / endpoint).
+    // Leave blank to disable.
     const FALLBACK_FORM_ACTION = "";
     const FALLBACK_FORM_ENTRY  = "";
 
-    // ---------- FAQ Bank (hardcoded) ----------
+    // ---------- Links you might want to update ----------
+    // If your actual pages differ, change these in ONE place:
+    const LINKS = {
+      clientInquiry: "/client-inquiry",
+      joinPage: "/join",
+      services: "/services",
+      portfolio: "/project-portfolio",
+      studentInquiry: "https://www.oregonconsultinggroup.com/student-inquiry",
+      recruitingInfo: "https://www.oregonconsultinggroup.com/join",
+      handshakeJob: "https://uoregon.joinhandshake.com/jobs/10704215"
+    };
+
+    // ---------- FAQ Bank (hardcoded; based on your draft answers) ----------
+    // Source: your draft PDF. :contentReference[oaicite:1]{index=1}
     const FAQ_BANK = [
       {
-        id: "about_ocg",
+        id: "what_is_ocg",
         title: "What is OCG?",
-        answerHTML: `OCG is a student-led consulting organization at the University of Oregon that supports organizations with research and analysis. Learn more here: <a href="/about">About OCG</a>.`,
-        phrases: ["what is ocg","what is the oregon consulting group","about ocg","tell me about ocg","who are you","oregon consultng group","oregon consuting group","oregon consulting groop"]
+        answerHTML: `The Oregon Consulting Group (OCG) is a professionally managed, student-run consulting organization housed in the Lundquist College of Business at the University of Oregon.`,
+        phrases: [
+          "what is ocg", "what is the oregon consulting group", "what is oregon consulting group",
+          "tell me about ocg", "about ocg", "who are you", "oregon consultng group", "oregon consuting group"
+        ]
       },
       {
-        id: "client_types",
-        title: "Client Types",
-        answerHTML: `We work with a range of organizations (often startups, small businesses, and nonprofits). If you’re not sure fit-wise, submit an inquiry and we’ll route you: <a href="/contact#client">Client Inquiry</a>.`,
-        phrases: ["what types of clients do you work with","who do you work with","who are your clients","nonprofits","startups","small businesses","client types","clinet types","cleints"]
+        id: "types_of_clients",
+        title: "What types of clients do you work with?",
+        answerHTML: `OCG works with all types of clients from many different industries, ranging from non-profits to Fortune 150 companies.`,
+        phrases: [
+          "what types of clients do you work with", "who do you work with", "who are your clients",
+          "do you work with nonprofits", "fortune 150", "client types", "cleints", "clinet"
+        ]
       },
       {
-        id: "services",
-        title: "Services",
-        answerHTML: `We typically support projects in strategy, market research, and financial analysis. See the full breakdown here: <a href="/services">Services</a>.`,
-        phrases: ["what services do you offer","services","service offerings","what do you offer","what can you help with","servces","serivces","servics"]
+        id: "services_offered",
+        title: "What services do you offer?",
+        answerHTML: `We offer services ranging from business strategy, to market analysis, to financial analysis, and almost anything in between. Have a specific service in mind? Send us a client inquiry to set up an initial meeting: <a href="${LINKS.clientInquiry}">Client Inquiry</a>.`,
+        phrases: [
+          "what services do you offer", "services", "service offerings", "what do you do",
+          "business strategy", "market analysis", "financial analysis", "servces", "serivces"
+        ]
       },
       {
-        id: "which_service",
-        title: "Which service should I choose?",
-        answerHTML: `If you want direction/priority → strategy. If you need customer/competitor insights → market research. If you need numbers/models/forecasting → financial analysis. More detail: <a href="/services">Services</a>.`,
-        phrases: ["which service is best","what service do i need","help me choose a service","strategy vs market research","market analysis vs strategy","wich service","best service for me"]
+        id: "which_service_best",
+        title: "Which service is best for what I need?",
+        answerHTML: `Every organization faces unique challenges. In addition to our standard service offerings, we offer customized consulting solutions tailored to your specific needs. Send us a client inquiry to set up an initial meeting: <a href="${LINKS.clientInquiry}">Client Inquiry</a>.`,
+        phrases: [
+          "which service is best", "what service do i need", "help me choose", "not sure what i need",
+          "custom consulting", "tailored solution", "wich service"
+        ]
       },
       {
-        id: "engagement_process",
-        title: "Engagement Process",
-        answerHTML: `A typical engagement includes kickoff + scope alignment, research/analysis, check-ins, and a final deliverable presentation with recommendations. Start here: <a href="/contact#client">Client Inquiry</a>.`,
-        phrases: ["what does a typical engagement look like","how does an engagement work","project process","kckoff to deliverable","steps","engagment process","engagement proces"]
+        id: "typical_engagement",
+        title: "What does a typical engagement look like?",
+        answerHTML: `Most projects follow a similar pattern: an introductory meeting and secondary research (background research + case studies), then primary research (often a survey and focus groups/expert interviews), and then the team derives insights and creates a final deliverable to present to the client.`,
+        phrases: [
+          "typical engagement", "what does a typical engagement look like", "project process",
+          "kickoff to deliverable", "how does it work", "engagement process", "engagment"
+        ]
       },
       {
-        id: "timeline",
-        title: "Project Timeline",
-        answerHTML: `Timelines depend on scope and academic-term scheduling. If you share your target date, we’ll advise fit: <a href="/contact#client">Client Inquiry</a>.`,
-        phrases: ["how long do projects take","timeline","timeframe","turnaround time","timline","time line"]
+        id: "project_length",
+        title: "How long do projects take?",
+        answerHTML: `Projects run on 10-week schedules.`,
+        phrases: [
+          "how long do projects take", "project length", "timeline", "timeframe",
+          "turnaround time", "timline"
+        ]
       },
       {
-        id: "deliverables",
-        title: "End-of-Project Deliverables",
-        answerHTML: `Most projects end with a final presentation and recommendations (with supporting analysis as needed). Ask here: <a href="/contact#client">Client Inquiry</a>.`,
-        phrases: ["what do clients receive at the end","deliverables","final deliverable","what do i get","report","presentation","deliverabels","delivarables"]
+        id: "end_of_project",
+        title: "What do clients receive at the end of a project?",
+        answerHTML: `Clients receive a final presentation including all recommendations made by the team and an appendix containing insights from the primary and secondary research. Clients may also receive supplementary deliverables (e.g., a one-pager or marketing mock-ups).`,
+        phrases: [
+          "what do clients receive", "deliverables", "final presentation", "appendix",
+          "what do i get", "end of project", "deliverabels"
+        ]
       },
       {
-        id: "what_you_need",
-        title: "What we need to start",
-        answerHTML: `To get started we typically need your goals, a point-of-contact, and any relevant context/data you can share. We’ll confirm details at kickoff: <a href="/contact#client">Client Inquiry</a>.`,
-        phrases: ["what do you need from me","what do you need to get started","what should i prepare","client responsibilities","getting started requirements"]
+        id: "what_needed_to_start",
+        title: "What do you need from me to get started?",
+        // This one was missing as a dedicated item in the draft; kept it simple & consistent.
+        answerHTML: `To get started, we typically need your goal/problem, a point of contact, and any relevant context or data you can share. The kickoff meeting is where we align scope, timeline, and expectations. Start here: <a href="${LINKS.clientInquiry}">Client Inquiry</a>.`,
+        phrases: [
+          "what do you need from me", "what do you need to get started", "what should i prepare",
+          "what info do you need", "getting started", "requirements to start"
+        ]
       },
       {
         id: "become_client",
-        title: "Become a Client / Submit Inquiry",
-        answerHTML: `Submit a client inquiry here: <a href="/contact#client">Client Inquiry</a>. Include goals + timeline for the fastest routing.`,
-        phrases: ["how do i become a client","submit a client inquiry","client inquiry","client interest form","work with ocg","hire ocg","clinet inquiry","client intrest"]
+        title: "How do I become a client?",
+        answerHTML: `Submit a client inquiry here: <a href="${LINKS.clientInquiry}">Client Inquiry</a>.`,
+        phrases: [
+          "how do i become a client", "client inquiry", "be a client", "work with ocg",
+          "hire ocg", "client interest form", "clinet inquiry"
+        ]
       },
       {
-        id: "pricing",
-        title: "Project Cost / Nonprofit Options",
-        answerHTML: `Pricing depends on scope and timing. If you’re a nonprofit, mention that in your inquiry and we’ll discuss options: <a href="/contact#client">Client Inquiry</a>.`,
-        phrases: ["how much does a project cost","pricing","cost","price","how much do you charge","nonprofit pricing","pro bono","prcing"]
+        id: "cost_nonprofit",
+        title: "How much does a project cost? Nonprofit options?",
+        answerHTML: `For a for-profit company, an OCG project costs $6,000 (plus any professional survey fees if desired). For non-profits, we offer a 50% discount ($3,000).`,
+        phrases: [
+          "how much does a project cost", "pricing", "cost", "price", "nonprofit pricing",
+          "do you discount for nonprofits", "6000", "3000", "pro bono", "prcing"
+        ]
       },
       {
         id: "confidentiality",
-        title: "Confidentiality",
-        answerHTML: `We take confidentiality seriously. If your project includes sensitive information, mention it in your inquiry and we’ll confirm handling during kickoff: <a href="/contact#client">Client Inquiry</a>.`,
-        phrases: ["confidentiality","how do you handle confidentiality","nda","can you sign an nda","sensitive data","confidenciality","confidentality"]
+        title: "How do you handle confidentiality?",
+        answerHTML: `If confidentiality is necessary, OCG (through the University of Oregon) can have the project team sign an NDA relating to the project.`,
+        phrases: [
+          "confidentiality", "nda", "can you sign an nda", "is this confidential",
+          "sensitive information", "confidenciality", "confidentality"
+        ]
       },
       {
-        id: "unknown_scope",
-        title: "Scope not defined yet",
-        answerHTML: `Yes — if you’re still scoping the problem, we can help clarify objectives and define a reasonable project scope on the first call. Start here: <a href="/contact#client">Client Inquiry</a>.`,
-        phrases: ["i don’t know my scope yet","dont know scope","not sure what i need","help define scope","scoping","unclear scope"]
+        id: "scope_unknown",
+        title: "Can OCG help if I don’t know my scope yet?",
+        // Not explicitly listed in the draft as its own Q (you had it in the earlier list),
+        // so this is a consistent “yes + route to inquiry”.
+        answerHTML: `Yes — that’s common. We can help clarify goals and shape a project scope during an initial conversation. Start here: <a href="${LINKS.clientInquiry}">Client Inquiry</a>.`,
+        phrases: [
+          "i don't know my scope yet", "dont know scope", "not sure on scope",
+          "can you help define scope", "help me scope", "unclear scope", "scope help"
+        ]
       },
       {
         id: "remote_outside_oregon",
-        title: "Remote / Outside Oregon",
-        answerHTML: `We can often work with organizations outside Oregon and/or collaborate remotely depending on fit and timing. Submit an inquiry and we’ll confirm: <a href="/contact#client">Client Inquiry</a>.`,
-        phrases: ["do you work outside oregon","remote projects","do you do remote work","virtual projects","outside of oregon","remotely"]
+        title: "Remote / outside Oregon?",
+        answerHTML: `While many past clients have been Oregon-based, we’re open to working with organizations across the country. We’ve also done many final presentations remotely.`,
+        phrases: [
+          "outside oregon", "remote projects", "do you do remote work",
+          "out of state", "virtual", "remote presentation", "remotely"
+        ]
       },
       {
-        id: "portfolio_examples",
-        title: "Past projects / examples",
-        answerHTML: `Browse examples of past work here: <a href="/project-portfolio">Project Portfolio</a>.`,
-        phrases: ["where can i see examples","past projects","portfolio","project portfolio","testimonials","case studies","previous clients","portoflio","protfolio"]
+        id: "examples",
+        title: "Where can I see examples of past projects or clients?",
+        answerHTML: `You can view examples here: <a href="${LINKS.portfolio}">Project Portfolio</a>.`,
+        phrases: [
+          "examples of past projects", "past projects", "portfolio", "testimonials",
+          "case studies", "previous clients", "project portfolio", "protfolio", "portoflio"
+        ]
       },
       {
-        id: "who_to_contact_general",
-        title: "Who should I contact?",
-        answerHTML: `If you’re not sure where your question fits, use the contact page and we’ll route you: <a href="/contact">Contact</a>.`,
-        phrases: ["who should i contact","who do i email","not sure who to contact","general questions","contact person","best person to reach"]
+        id: "where_my_question_fits",
+        title: "Who should I contact if I’m not sure where my question fits?",
+        answerHTML: `General inquiries: Ben Gilmour (President) at <a href="mailto:bgilmou2@uoregon.edu">bgilmou2@uoregon.edu</a>. Client relations inquiries: Connor Lowery-North (VP of Client Relations) at <a href="mailto:cloweryn@uoregon.edu">cloweryn@uoregon.edu</a>.`,
+        phrases: [
+          "who should i contact", "who do i contact", "not sure where my question fits",
+          "general inquiry", "client relations", "ben gilmour", "connor lowery", "email"
+        ]
       },
       {
         id: "join_ocg",
-        title: "Joining OCG",
-        answerHTML: `To join, start here: <a href="/join">Join OCG</a>. That page should have the application and recruiting details.`,
-        phrases: ["how do i join ocg","join ocg","apply to ocg","membership","become a member","joinning ocg","aplly to ocg"]
+        title: "How do I join OCG?",
+        answerHTML: `Fill out our application during our fall, winter, or spring recruiting cycles here: <a href="${LINKS.handshakeJob}" target="_blank" rel="noopener">Handshake Application</a>.`,
+        phrases: [
+          "how do i join ocg", "join ocg", "apply to ocg", "application", "handshake",
+          "recruiting cycles", "joinning ocg", "aplly"
+        ]
       },
       {
-        id: "applications_process",
-        title: "Application timeline & process",
-        answerHTML: `Recruiting timelines and the application process are here: <a href="/join">Join OCG</a>. If you don’t see dates, use <a href="/contact">Contact</a> and mention “recruiting.”`,
-        phrases: ["when do applications open","when do applications close","application deadline","recruiting timeline","application process","interview process","aplication timeline","deadlines"]
+        id: "applications_open_close",
+        title: "When do applications open/close and what’s the process?",
+        answerHTML: `Recruiting cycle info is here: <a href="${LINKS.recruitingInfo}">Recruiting Info</a>. The process is: application → (if selected) interviews including a behavioral interview and a case interview.`,
+        phrases: [
+          "when do applications open", "when do applications close", "application deadline",
+          "recruiting timeline", "what is the process", "interview process", "case interview"
+        ]
       },
       {
-        id: "time_commitment",
-        title: "Weekly time commitment",
-        answerHTML: `Weekly commitment varies by role and project load. Check details here: <a href="/join">Join OCG</a> (or ask via <a href="/contact">Contact</a>).`,
-        phrases: ["weekly time commitment","how many hours","hours per week","time commitment","workload","weekley time","time committment"]
+        id: "weekly_time",
+        title: "Weekly time commitment?",
+        answerHTML: `Members typically spend 10–15 hours per week on their projects.`,
+        phrases: [
+          "weekly time commitment", "how many hours", "hours per week",
+          "time commitment", "workload", "10-15 hours", "10 15 hours"
+        ]
       },
       {
-        id: "experience_background",
-        title: "Experience & backgrounds",
-        answerHTML: `You don’t need prior consulting experience to apply — we look for motivated students with strong problem-solving and communication. Details: <a href="/join">Join OCG</a>.`,
-        phrases: ["do i need prior consulting experience","do i need experience","what backgrounds are you looking for","what majors","requirements","qualifications","experiance"]
+        id: "experience_needed",
+        title: "Do I need prior consulting experience?",
+        answerHTML: `No — you do not need prior consulting experience to be in OCG. We encourage people not from a business background to apply.`,
+        phrases: [
+          "do i need consulting experience", "experience needed", "what backgrounds",
+          "do i need prior experience", "non business major", "requirements", "experiance"
+        ]
       },
       {
-        id: "recruiting_contact",
-        title: "Recruiting / student questions contact",
-        answerHTML: `For recruiting or student questions, use: <a href="/contact">Contact</a> and mention “recruiting” in your message so it routes correctly.`,
-        phrases: ["who can i contact with recruiting questions","recruiting contact","student questions","application questions","recruting","recruiting email"]
+        id: "recruiting_questions_contact",
+        title: "Who can I contact with recruiting / student questions?",
+        answerHTML: `Fill out our student inquiry form here: <a href="${LINKS.studentInquiry}" target="_blank" rel="noopener">Student Inquiry</a>.`,
+        phrases: [
+          "recruiting questions", "student questions", "who do i contact about recruiting",
+          "student inquiry", "application questions", "recruting"
+        ]
       }
     ];
 
@@ -402,7 +494,7 @@
     const confirmYes = document.getElementById("ocgConfirmYes");
     const confirmNo  = document.getElementById("ocgConfirmNo");
 
-    // If any are missing, bail safely (prevents “whole widget disappears”)
+    // If any are missing, bail safely
     if (!widget || !closeBtn || !launcher || !otherBtn || !qaBox || !qInput || !askBtn || !cancelBtn ||
         !answerBox || !confirmBox || !confirmText || !confirmYes || !confirmNo) {
       return;
@@ -441,7 +533,7 @@
     const isHome =
       window.location.pathname === "/" ||
       window.location.pathname === "/index.html" ||
-      document.body.classList.contains("collection-type-index"); // helps on Squarespace homepages
+      document.body.classList.contains("collection-type-index"); // Squarespace homepages
 
     const shouldAutoOpen = isHome && nowMs() > dismissedUntil();
     if (shouldAutoOpen) setTimeout(openWidget, SHOW_DELAY_MS);
@@ -541,7 +633,7 @@
       hide(answerBox);
       confirmText.innerHTML =
         `Did you mean <strong>${best.entry.title || "this topic"}</strong>?<br>
-         <span style="color:#6b7280; font-size:12px;">(We’re guessing based on similar wording.)</span>`;
+         <span style="color:#374151; font-size:12px;">(We’re guessing based on similar wording.)</span>`;
       show(confirmBox);
     }
 
@@ -558,7 +650,7 @@
       hide(confirmBox);
       renderAnswer(
         `Got it — we’ll get back to you. We saved your question for our team to review.<br><br>
-         <span style="color:#6b7280; font-size:12px;">If it’s urgent, use <a href="/contact">Contact</a>.</span>`
+         <span style="color:#374151; font-size:12px;">If it’s urgent, use <a href="${LINKS.clientInquiry}">Client Inquiry</a>.</span>`
       );
       try{ await logUnmatchedQuestion(pendingQuestion); }catch(_){}
       pendingMatch = null;
@@ -582,14 +674,13 @@
       } else {
         renderAnswer(
           `Thanks — we’ll get back to you. We saved your question for our team to review.<br><br>
-           <span style="color:#6b7280; font-size:12px;">If it’s urgent, use <a href="/contact">Contact</a>.</span>`
+           <span style="color:#374151; font-size:12px;">If it’s urgent, use <a href="${LINKS.clientInquiry}">Client Inquiry</a>.</span>`
         );
         try{ await logUnmatchedQuestion(raw); }catch(_){}
       }
     });
 
   } catch (e) {
-    // If anything throws, fail silently so it doesn't break the whole site.
     console.warn("OCG widget error:", e);
   }
 })();
