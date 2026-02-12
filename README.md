@@ -5,5 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>OCG Concierge Widget</title>
-
-<script src="https://ocg-rag-test.vercel.app/"></script>
+<body>
+  <script src="https://ocg-rag-test.vercel.app/"></script>
+</body>
+</html>
